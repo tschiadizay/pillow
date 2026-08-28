@@ -100,7 +100,7 @@ class SleepEDFX(BaseDataset):
     
     def ann_parse(self, ann_fname: str):
         """
-        Parse Sleep-EDF-2018 EDF annotation files using PyEDF.
+        Parse Sleep-EDF-2018 EDF annotation files using MNE.
         
         Args:
             ann_fname: Path to EDF hypnogram file
