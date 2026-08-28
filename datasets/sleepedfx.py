@@ -2,7 +2,7 @@ import os
 from mne import read_annotations
 import pandas as pd
 from typing import Dict, List, Optional, Tuple
-from datetime import timedelta
+import datetime as dt
 from datasets.base import BaseDataset
 from datasets.registry import register_dataset
 
