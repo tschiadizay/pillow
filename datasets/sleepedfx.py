@@ -113,31 +113,22 @@ class SleepEDFX(BaseDataset):
         ann_onsets = ann_f.onset
         ann_durations = ann_f.duration
         ann_stages = ann_f.description
-        ann_startdatetime = ann_f.orig_time
-        start_offset = None
+
+        ann_start_time = ann_onsets[0]
         
         ann_stage_events = []
         
         for onset, duration, stage in zip(ann_onsets, ann_durations, ann_stages):
-            onset_sec = onset
-            
-            # Handle delayed annotations at the beginning
-            if start_offset is None:
-                start_offset = onset_sec
-                if ann_startdatetime is not None:
-                    ann_startdatetime = ann_startdatetime + timedelta(seconds=onset_sec)
-                else:
-                    ann_startdatetime = onset_sec
-                
+
             # Special handling for specific files with known gaps
-            if 'ST7121JE-Hypnogram' in ann_fname and onset_sec == 30840:
+            if 'ST7121JE-Hypnogram' in ann_fname and onset == 30840:
                 ann_stage_events.append({
                     'Stage': "Sleep stage ?",
                     'Start': 30810,
                     'Duration': 30
                 })
                 
-            if 'ST7221JA-Hypnogram' in ann_fname and onset_sec == 32820:
+            if 'ST7221JA-Hypnogram' in ann_fname and onset == 32820:
                 ann_stage_events.append({
                     'Stage': "Sleep stage ?",
                     'Start': 30870,
@@ -146,10 +137,10 @@ class SleepEDFX(BaseDataset):
             
             ann_stage_events.append({
                 'Stage': stage,
-                'Start': onset_sec - start_offset,
+                'Start': onset - ann_start_time,
                 'Duration': duration
             })
     
-        return ann_stage_events, ann_startdatetime, None, None
+        return ann_stage_events, dt.timedelta(seconds=ann_start_time), None, None
 
 
