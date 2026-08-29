@@ -118,29 +118,29 @@ class SleepEDFX(BaseDataset):
         
         ann_stage_events = []
         
-        for onset, duration, stage in zip(ann_onsets, ann_durations, ann_stages):
+        for i in range(len(ann_onsets)-1):
 
-            # Special handling for specific files with known gaps
-            if 'ST7121JE-Hypnogram' in ann_fname and onset == 30840:
-                ann_stage_events.append({
+            ann_stage_event = {
+                'Stage': ann_stages[i],
+                'Start': ann_onsets[i] - ann_start_time,
+                'Duration': ann_durations[i]
+            }
+            ann_stage_events.append(ann_stage_event)
+            # Fill out missing annotations with 'Sleep stage ?' (happens only one time in 'ST7121JE-Hypnogram' and 'ST7221JA-Hypnogram')
+            if ann_onsets[i] + ann_durations[i] != ann_onsets[i+1]:
+                ann_stage_event = {
                     'Stage': "Sleep stage ?",
-                    'Start': 30810,
-                    'Duration': 30
-                })
-                
-            if 'ST7221JA-Hypnogram' in ann_fname and onset == 32820:
-                ann_stage_events.append({
-                    'Stage': "Sleep stage ?",
-                    'Start': 30870,
-                    'Duration': 1950
-                })
-            
-            ann_stage_events.append({
-                'Stage': stage,
-                'Start': onset - ann_start_time,
-                'Duration': duration
-            })
-    
+                    'Start': (ann_onsets[i] + ann_durations[i]) - ann_start_time,
+                    'Duration': ann_onsets[i+1] - (ann_onsets[i] + ann_durations[i])
+                }
+                ann_stage_events.append(ann_stage_event)
+        
+        # add last ann_stage_event because loop stopped before
+        ann_stage_events.append({
+                'Stage': ann_stages[-1],
+                'Start': ann_onsets[-1] - ann_start_time,
+                'Duration': ann_durations[-1]
+        })
         return ann_stage_events, dt.timedelta(seconds=ann_start_time), None, None
 
 
