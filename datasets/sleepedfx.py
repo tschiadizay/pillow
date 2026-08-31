@@ -79,7 +79,6 @@ class SleepEDFX(BaseDataset):
         psg_fname = os.path.basename(psg_fname)
         subject_id = int(psg_fname[3:5])
         subject_night = int(psg_fname[5])
-        # print(subject_id, subject_night)
         if "SC4" in psg_fname:
             # Sleep-Cassette
             subjects = pd.read_excel(os.path.join(self.dset_dir,'1.0.0','SC-subjects.xls'))
