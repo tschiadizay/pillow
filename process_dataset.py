@@ -87,7 +87,7 @@ def load_config_file(config_file_path: str) -> dict:
     except yaml.YAMLError as e:
         raise ValueError(f"Invalid YAML in configuration file: {e}")
 
-def main(config):
+def main(config : dict):
     """
     Process a dataset.
     """
