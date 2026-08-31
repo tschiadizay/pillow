@@ -20,11 +20,12 @@ def build_parser() -> argparse.ArgumentParser:
                 """,
     )
 
-    # Configuration file (optional)
+    # Parse path to configuration file. If flag is not used, use default config path.
     parser.add_argument(
         "--config",
         type=str,
         help="Path to YAML configuration file. Adapt config.yaml according to your needs.",
+        default="config.yaml"
     )
 
     return parser
@@ -147,15 +148,10 @@ def main(config):
 
 if __name__ == "__main__":
 
+    # Parse from args config path and load config file
     parser = build_parser()
     cli_args = parser.parse_args()
-
-    # Load user's config file if specified
-    if cli_args.config:
-        config = load_config_file(cli_args.config)
-    else:
-        # Load defaults from config.yaml
-        config = load_config_file("config.yaml")
+    config = load_config_file(cli_args.config)
 
     main(config)
 
