@@ -265,7 +265,7 @@ class BaseDataset(ABC):
 
         Returns:
             ann_stage_events List[Dict[str, Union[str, float]]]: a list of dictionaries for each continuous sleep_stage with keys:
-                - 'Stage' (str): sleep stage name
+                - 'Stage' (str): sleep stage name (only keys from defined self.ann2label are valid)
                 - 'Start' (float): onset time in seconds, relative to the first sleep stage event.
                 - 'Duration' (float): duration in seconds
             ann_startdatetime (datetime.timedelta): start_onset of the recording in seconds 
