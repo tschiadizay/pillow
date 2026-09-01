@@ -40,8 +40,6 @@ def resolve_paths(
 ):
     """Return resolved (dset_dir, psg_dir, ann_dir, output_dir_resolved).
     """
-    if(base_data_dir is None and data_dir is None):
-        raise ValueError("Base_data_dir and data_dir are both not set at the same time in the config file. Please set at least one of them.")
     
     if data_dir:
         dset_dir = data_dir
