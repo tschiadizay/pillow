@@ -2,7 +2,6 @@ import os
 from mne import read_annotations
 import pandas as pd
 from typing import Dict, List, Optional, Tuple
-import datetime as dt
 from datasets.base import BaseDataset
 from datasets.registry import register_dataset
 
@@ -140,6 +139,6 @@ class SleepEDFX(BaseDataset):
                 'Start': ann_onsets[-1] - ann_start_time,
                 'Duration': ann_durations[-1]
         })
-        return ann_stage_events, dt.timedelta(seconds=ann_start_time), None, None
+        return ann_stage_events, ann_start_time, None, None
 
 
